@@ -54,3 +54,25 @@ psql -U postgres -d mydb
 \d "Restaurant" check details
 
 SELECT \* FROM "MenuCategory";
+
+# sfc criar page
+
+# next
+
+Approuter
+Dentro das subpastas que forem adicionadas ao caminho "src/app/" e que tiverem um arquivo page.tsx será tratada como uma rota.
+
+# Tools
+
+## Tailwind
+
+To customize your css by using class
+
+## Shadcn
+
+npx shadcn@2.3.0 init
+
+Pretty components. It is compatible with tailwind.
+
+npx shadcn@2.3.0 add button
+It created a /src/components/ui/button.tsx. It uses tailwind classes, so it makes easier to customize it.
