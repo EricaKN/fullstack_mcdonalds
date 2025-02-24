@@ -76,3 +76,15 @@ Pretty components. It is compatible with tailwind.
 
 npx shadcn@2.3.0 add button
 It created a /src/components/ui/button.tsx. It uses tailwind classes, so it makes easier to customize it.
+
+## eslint for sort imports
+
+npm install -D eslint-plugin-simple-import-sort@12.1.1
+-D because we use it only for development
+
+## plugin prettier-plugin-tailwindcss
+
+npm install -D prettier-plugin-tailwindcss@0.6.5
+.prettierrc.json
+
+Order classes
