@@ -110,3 +110,12 @@ npm install -D prettier-plugin-tailwindcss@0.6.5
 .prettierrc.json
 
 Order classes
+
+
+# Componentes renderizados por um client component
+sempre serão client coomponents, pois não é possível ter um server component dentro de um client component.
+
+# Botão de voltar a página, usa um useRouter
+hook useRouter que só roda em client component. 
+Por isso criamos components/product-header.tsx
+não é tratada como rota porque não tem arquivo page.tsx. 
