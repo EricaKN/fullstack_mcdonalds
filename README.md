@@ -35,7 +35,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-# Docker with Postgres
+# DB - Prisma and postgres running at Docker
 
 sudo docker compose up
 
@@ -55,12 +55,31 @@ psql -U postgres -d mydb
 
 SELECT \* FROM "MenuCategory";
 
+## src/lib/prisma.ts
+
+Garante que sempre teremos pelo menos 1 conexão aberta com db.
+quando salva arquivo em desenvolvimento, o servidor reinicia.
+Se não tenho esse arquivo, sempre que eu salvo arquivo em desenvolvimento, ele vai criar uma nova conexão com banco (e vai estourar o banco)
+Esse código garante que se estiver em desenvolvimento crio versão em cache do prisma, que é basicamente uma conexão com db.
+
 # sfc criar page
 
 # next
 
-Approuter
+## Approuter
+
 Dentro das subpastas que forem adicionadas ao caminho "src/app/" e que tiverem um arquivo page.tsx será tratada como uma rota.
+
+## [Pasta]
+
+Quando crio uma pasta no next com nome entre colchetes, vou receber no parâmetro da url, um parâmetro com esse nome. Ex.:
+[slug]/page.tsx
+localhost:3000 /fsw-donalds
+
+Nesse caso, fsw-donalds vai ser o valor de slug.
+É um server component, roda no server, e pode acessar backend. Não consegue ter interatividade.
+
+Se quiser interatividade tem que criar um client component
 
 # Tools
 
@@ -76,6 +95,8 @@ Pretty components. It is compatible with tailwind.
 
 npx shadcn@2.3.0 add button
 It created a /src/components/ui/button.tsx. It uses tailwind classes, so it makes easier to customize it.
+
+npx shadcn@2.3.0 add card
 
 ## eslint for sort imports
 
