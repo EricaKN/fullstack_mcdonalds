@@ -97,6 +97,7 @@ npx shadcn@2.3.0 add button
 It created a /src/components/ui/button.tsx. It uses tailwind classes, so it makes easier to customize it.
 
 npx shadcn@2.3.0 add card
+npx shadcn@2.3.0 add scroll-area
 
 ## eslint for sort imports
 
