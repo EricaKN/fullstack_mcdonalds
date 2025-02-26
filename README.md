@@ -115,6 +115,8 @@ Order classes
 # Componentes renderizados por um client component
 sempre serão client coomponents, pois não é possível ter um server component dentro de um client component.
 
+A menos que o server component seja passado como um prop-children dentro do client component. Como por exemplo no caso do cart.tsx que é client component e é passado no layout.tsx. Dentro do cartProvider tem alguns server compoentns como o src/app/[slug]/menu/page.tsx
+
 # Botão de voltar a página, usa um useRouter
 hook useRouter que só roda em client component. 
 Por isso criamos components/product-header.tsx
@@ -122,3 +124,20 @@ não é tratada como rota porque não tem arquivo page.tsx.
 
 # Functions
 When we use more than 1x a function, we can save it at /src/helpers and call them whenever we want.
+
+# Carrinho
+Tem 2 telas que precisam de infos de carrinho (se carrinho está aberto, e quais são os itens no carrinho):
+- tela da sacola;
+- tela do restaurante (na parte inferior mostrando o preço total dos pedidos).
+Por isso preciso armazenar o estado e o conteúdo do carrinho em uma ferramenta de estado  global como o Context API. 
+Vamos criar um contexto (tipo um componente ) que vai armazenar um estado, que será compartilhado por telas e componentes que essas telas renderizam.
+
+Contexto: /src/app/[slug]/menu/context/cart.tsx
+
+tenho que fazer com  que todos os componentes que precisam ter acesso as infos desse contexto, estejam dentro do CartProvider, então tenho que add no layout.tsx
+
+CartProvider tem que ser um client-component
+# Layout.tsx
+renderizado em todas as páginas.
+
+
