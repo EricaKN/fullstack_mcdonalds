@@ -119,3 +119,6 @@ sempre serão client coomponents, pois não é possível ter um server component
 hook useRouter que só roda em client component. 
 Por isso criamos components/product-header.tsx
 não é tratada como rota porque não tem arquivo page.tsx. 
+
+# Functions
+When we use more than 1x a function, we can save it at /src/helpers and call them whenever we want.
