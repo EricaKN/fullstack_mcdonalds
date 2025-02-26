@@ -4,13 +4,14 @@ import { createContext, ReactNode, useState } from "react";
 
 
 {/* ADD NOVA PROPRIEDADE DE QUANTIDADE PARA PRODUCT QUE VEM DO PRISMA*/}
-interface CartProduct extends Pick<Product, "id" | "name" | "price" | "imageUrl"> {
+interface CartProduct 
+    extends Pick<Product, "id" | "name" | "price" | "imageUrl"> {
     quantity: number;
 }
 
 export interface ICartContext {
     isOpen: boolean;
-    products: [];
+    products: CartProduct[];
     toggleCart: () => void;
     addProduct: (product: CartProduct) => void;
 }
@@ -31,7 +32,24 @@ export const CartProvider = ({children}: {children: ReactNode}) => {
         setIsOpen(prev => !prev)
     }
     const addProduct = (product: CartProduct) => {
-        setProducts(prev => ([...prev, product]));
+        const ProductIsAlreadyOnTheCart = products.some(
+            (prevProduct) => prevProduct.id === product.id,
+        );
+        if (!ProductIsAlreadyOnTheCart) {
+            return setProducts(prev => [...prev, product]);
+        } 
+        setProducts((prevProducts) => {
+            return prevProducts.map((prevProduct) => {
+                if (prevProduct.id === product.id) {
+                    return {
+                        ...prevProduct,
+                        quantity: prevProduct.quantity + product.quantity,
+                    };
+                }
+                return prevProduct;
+            })
+
+        });
     }
     return (
         <CartContext.Provider
