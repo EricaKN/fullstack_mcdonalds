@@ -98,7 +98,7 @@ It created a /src/components/ui/button.tsx. It uses tailwind classes, so it make
 
 npx shadcn@2.3.0 add card
 npx shadcn@2.3.0 add scroll-area
-
+npx shadcn@2.3.0 add sheet
 ## eslint for sort imports
 
 npm install -D eslint-plugin-simple-import-sort@12.1.1
