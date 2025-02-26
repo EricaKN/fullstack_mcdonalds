@@ -26,7 +26,7 @@ interface ProductDetailsProps{
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
-    const {toggleCart } = useContext(CartContext);
+    const {toggleCart, addProduct} = useContext(CartContext);
     const [quantity, setQuantity] = useState<number>(0);
     const handleDecreaseQuantity = () => {
         setQuantity((prev) => {
@@ -43,10 +43,14 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             }
             return prev + 1;
         });
-        const HandleAddToCard = () => {
-            toggleCart();
-        }
-    }
+    };
+    const handleAddToCard = () => {
+        addProduct({
+            ...product,
+            quantity,
+        });
+        toggleCart();
+        };
     return ( 
         <>
             <div className="flex flex-col relative z-50 rounded-t-3xl py-5 mt-[-1.5rem] p-5 flex-auto overflow-hidden">
@@ -111,7 +115,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                 </ScrollArea>
             </div>
             <Button 
-                className="rounded-full w-full mt-6">
+                className="rounded-full w-full mt-6" onClick={handleAddToCard}>
                     Adicionar à sacola
             </Button>
         </div>
