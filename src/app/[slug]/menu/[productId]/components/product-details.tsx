@@ -1,7 +1,6 @@
 "use client";
 import { Prisma } from "@prisma/client";
 import { ChefHatIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { isDynamicPostpone } from "next/dist/server/app-render/dynamic-rendering";
 import Image from "next/image";
 import { useContext, useState } from "react";
 
