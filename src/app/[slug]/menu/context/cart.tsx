@@ -4,7 +4,7 @@ import { createContext, ReactNode, useState } from "react";
 
 
 {/* ADD NOVA PROPRIEDADE DE QUANTIDADE PARA PRODUCT QUE VEM DO PRISMA*/}
-interface CartProduct 
+export interface CartProduct 
     extends Pick<Product, "id" | "name" | "price" | "imageUrl"> {
     quantity: number;
 }
