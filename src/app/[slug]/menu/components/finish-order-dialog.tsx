@@ -21,25 +21,36 @@ import { Input } from "@/components/ui/input";
 
 import { isValidCpf } from "../helpers/cpf";
 import { ConsumptionMethod } from "@prisma/client";
+import { useParams, useSearchParams } from "next/navigation";
+import { useContext } from "react";
+import { CartContext } from "../context/cart";
+import { createOrder } from "../actions /create-order";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, {
-    message: 'O nome é obrigatório.',
+    message: "O nome é obrigatório.",
   }),
-  cpf: z.string().trim().min(1, {
-    message: "O CPF é obrigatório"
-  }).refine((value) => isValidCpf(value), {
-    message: "CPF inválido.",
-  }),
+  cpf: z
+    .string()
+    .trim()
+    .min(1, {
+      message: "O CPF é obrigatório",
+    })
+    .refine((value) => isValidCpf(value), {
+      message: "CPF inválido.",
+    }),
 });
-type FormSchema = z.infer<typeof formSchema>
+type FormSchema = z.infer<typeof formSchema>;
 
 interface FinishOrderDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-const FinishOrderDialog = ({open, onOpenChange}: FinishOrderDialogProps) => {
+const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
+  const { slug } = useParams<{ slug: string }>();
+  const { products } = useContext(CartContext);
+  const searchParams = useSearchParams();
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,20 +61,30 @@ const FinishOrderDialog = ({open, onOpenChange}: FinishOrderDialogProps) => {
   });
   const onSubmit = async (data: FormSchema) => {
     try {
+      const consumptionMethod = searchParams.get(
+        "consumptionMethod",
+      ) as ConsumptionMethod;
       await createOrder({
         consumptionMethod,
+        customerCpf: data.cpf,
+        customerName: data.name,
+        products,
+        slug,
       });
-    } catch (error) {}
+      onOpenChange(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerTrigger asChild>
-
-      </DrawerTrigger>
+      <DrawerTrigger asChild></DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Finalizar Pedido</DrawerTitle>
-          <DrawerDescription>Isira suas informações abaixo para finalizar o seu pedido.</DrawerDescription>
+          <DrawerDescription>
+            Isira suas informações abaixo para finalizar o seu pedido.
+          </DrawerDescription>
         </DrawerHeader>
         <div className="p-5">
           <Form {...form}>
@@ -92,7 +113,8 @@ const FinishOrderDialog = ({open, onOpenChange}: FinishOrderDialogProps) => {
                         placeholder="Digite seu CPF"
                         format="###.###.###-##"
                         customInput={Input}
-                        {...field} />
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -106,18 +128,18 @@ const FinishOrderDialog = ({open, onOpenChange}: FinishOrderDialogProps) => {
                 >
                   Finalizar
                 </Button>
-                <DrawerClose>
-                  <Button className="w-full rounded-full" variant="outline">Cancelar</Button>
+                <DrawerClose asChild>
+                  <Button className="w-full rounded-full" variant="outline">
+                    Cancelar
+                  </Button>
                 </DrawerClose>
               </DrawerFooter>
             </form>
           </Form>
         </div>
-
       </DrawerContent>
     </Drawer>
-
   );
-}
+};
 
 export default FinishOrderDialog;
