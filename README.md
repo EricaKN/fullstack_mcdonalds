@@ -102,7 +102,7 @@ npx shadcn@2.3.0 add scroll-area
 npx shadcn@2.3.0 add sheet
 npx shadcn@2.3.0 add drawer
 npx shadcn@2.3.0 add form
- npx shadcn@2.3.0 add sonner
+npx shadcn@2.3.0 add sonner
 
 ## eslint for sort imports
 
