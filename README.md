@@ -38,9 +38,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 # DB - Prisma and postgres running at Docker
 
 sudo docker compose up
-
+npx prisma format
 npx prisma migrate dev
 npx prisma db seed
+npx prisma generate - atualizar os tipos do prisma (os campos das tabelas para eu conseguir importar nos ts files)
 
 ## Access inside docker
 
@@ -146,3 +147,8 @@ renderizado em todas as páginas.
 # CPF
 react number format
 npm install react-number-format@5.4.3
+
+# SERVER ACTIONS
+Funções que são executadas no servidor mas podem ser chamadas por client component.
+É uma rota de API. 
+Para sinalizar que o arquivo terá server actions, você tem que add "use server;" no começo.

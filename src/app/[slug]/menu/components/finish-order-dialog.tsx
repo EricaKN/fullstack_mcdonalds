@@ -20,6 +20,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 
 import { isValidCpf } from "../helpers/cpf";
+import { ConsumptionMethod } from "@prisma/client";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, {
@@ -47,9 +48,13 @@ const FinishOrderDialog = ({open, onOpenChange}: FinishOrderDialogProps) => {
     },
     shouldUnregister: true,
   });
-  const onSubmit = (data: FormSchema) => {
-    console.log({ data })
-  }
+  const onSubmit = async (data: FormSchema) => {
+    try {
+      await createOrder({
+        consumptionMethod,
+      });
+    } catch (error) {}
+  };
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>
