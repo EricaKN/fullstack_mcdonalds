@@ -1,4 +1,4 @@
-import { Order, OrderStatus, Prisma } from "@prisma/client";
+import { OrderStatus, Prisma } from "@prisma/client";
 import { ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
 import Image from "next/image";
 
@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { formatCurrency } from "@/helpers/format-currency";
 
 interface OrderListProps {
-    orders: Array<Prisma.OrderGetPayLoad<{
+    orders: Array<Prisma.OrderGetPayload<{
         include: {
             restaurant: {
                 select: {
@@ -47,34 +47,34 @@ const OrderList = ({ orders }: OrderListProps) => {
                 <Card key={order.id}>
                     <CardContent className="p-5 space-y-4">
                         <div className={`w-fit rounded-full text-white px-2 py-1 text-xs font-semibold
-                                ${order.status === OrderStatus.FINISHED ? "bg-green-500 text-white": "bg-gray-200 text-gray-500"}
+                                ${order.status === OrderStatus.FINISHED ? "bg-green-500 text-white" : "bg-gray-200 text-gray-500"}
                             `}>
-                                {getStatusLabel(order.status)}
+                            {getStatusLabel(order.status)}
                         </div>
                         <div className="flex item-center gap-2">
                             <div className="relative h-5 w-5">
-                                <Image 
-                                    src={order.restaurant.avatarImageUrl} 
+                                <Image
+                                    src={order.restaurant.avatarImageUrl}
                                     alt={order.restaurant.name}
-                                    className="rounded-sm" 
-                                    fill 
+                                    className="rounded-sm"
+                                    fill
                                 />
 
                             </div>
                             <p className="text=sm font-semibold">{order.restaurant.name}</p>
                         </div>
-                        <Separator/>
-                      <div className="space-y-2">
-                      {order.orderProducts.map((orderProduct) => (
-                            <div key={orderProduct.id} className="flex items-center gap-2">
-                                <div className="h-5 w-5 flex items-center justify-center rounded-full bg-gray-400 text-white text-sx font-semibold">
-                                    {orderProduct.quantity}
+                        <Separator />
+                        <div className="space-y-2">
+                            {order.orderProducts.map((orderProduct) => (
+                                <div key={orderProduct.id} className="flex items-center gap-2">
+                                    <div className="h-5 w-5 flex items-center justify-center rounded-full bg-gray-400 text-white text-sx font-semibold">
+                                        {orderProduct.quantity}
+                                    </div>
+                                    <p className="text-sm">{orderProduct.product.name}</p>
                                 </div>
-                                <p className="text-sm">{orderProduct.product.name}</p>
-                            </div>
-                        ))}
-                      </div>
-                        <Separator/>
+                            ))}
+                        </div>
+                        <Separator />
                         <p className="text-sm font-medium">{formatCurrency(order.total)}</p>
                     </CardContent>
                 </Card>

@@ -3,8 +3,8 @@ import { Product } from "@prisma/client";
 import { createContext, ReactNode, useState } from "react";
 
 
-{/* ADD NOVA PROPRIEDADE DE QUANTIDADE PARA PRODUCT QUE VEM DO PRISMA*/}
-export interface CartProduct 
+{/* ADD NOVA PROPRIEDADE DE QUANTIDADE PARA PRODUCT QUE VEM DO PRISMA*/ }
+export interface CartProduct
     extends Pick<Product, "id" | "name" | "price" | "imageUrl"> {
     quantity: number;
 }
@@ -12,13 +12,13 @@ export interface CartProduct
 export interface ICartContext {
     isOpen: boolean;
     products: CartProduct[];
-    total: number; 
+    total: number;
     totalQuantity: number;
     toggleCart: () => void;
     addProduct: (product: CartProduct) => void;
     decreaseProductQuantity: (productId: string) => void;
     increaseProductQuantity: (productId: string) => void;
-    removeProduct: (productId: string) => void; 
+    removeProduct: (productId: string) => void;
 }
 
 export const CartContext = createContext<ICartContext>({
@@ -26,15 +26,15 @@ export const CartContext = createContext<ICartContext>({
     products: [],
     total: 0,
     totalQuantity: 0,
-    toggleCart: () => {},
-    addProduct: () => {},
-    decreaseProductQuantity: () => {},
-    increaseProductQuantity: () => {},
-    removeProduct: () => {},
+    toggleCart: () => { },
+    addProduct: () => { },
+    decreaseProductQuantity: () => { },
+    increaseProductQuantity: () => { },
+    removeProduct: () => { },
 });
 
-{/* CHILDREN SÃO AS PÁGINAS QUE RECEBERÃO AS INFOS DESSA NOVA INTERFACE CRIADA */}
-export const CartProvider = ({children}: {children: ReactNode}) => {
+{/* CHILDREN SÃO AS PÁGINAS QUE RECEBERÃO AS INFOS DESSA NOVA INTERFACE CRIADA */ }
+export const CartProvider = ({ children }: { children: ReactNode }) => {
     const [products, setProducts] = useState<CartProduct[]>([]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const total = products.reduce((acc, product) => {
@@ -43,7 +43,7 @@ export const CartProvider = ({children}: {children: ReactNode}) => {
     const totalQuantity = products.reduce((acc, product) => {
         return acc + product.quantity;
     }, 0);
-    const toggleCart = () =>{
+    const toggleCart = () => {
         setIsOpen(prev => !prev)
     }
     const addProduct = (product: CartProduct) => {
@@ -52,7 +52,7 @@ export const CartProvider = ({children}: {children: ReactNode}) => {
         );
         if (!ProductIsAlreadyOnTheCart) {
             return setProducts(prev => [...prev, product]);
-        } 
+        }
         setProducts((prevProducts) => {
             return prevProducts.map((prevProduct) => {
                 if (prevProduct.id === product.id) {
@@ -65,10 +65,10 @@ export const CartProvider = ({children}: {children: ReactNode}) => {
             })
 
         });
-        
+
     }
     const decreaseProductQuantity = (productId: string) => {
-        setProducts(prevProducts=> {
+        setProducts(prevProducts => {
             return prevProducts.map(prevProduct => {
                 if (prevProduct.id != productId) {
                     return prevProduct;
@@ -76,7 +76,7 @@ export const CartProvider = ({children}: {children: ReactNode}) => {
                 if (prevProduct.quantity === 1) {
                     return prevProduct;
                 }
-                return {...prevProduct, quantity: prevProduct.quantity - 1}
+                return { ...prevProduct, quantity: prevProduct.quantity - 1 }
             });
         });
     };
@@ -89,7 +89,7 @@ export const CartProvider = ({children}: {children: ReactNode}) => {
                 if (prevProduct.quantity === 10) {
                     return prevProduct;
                 }
-                return {...prevProduct, quantity: prevProduct.quantity + 1}
+                return { ...prevProduct, quantity: prevProduct.quantity + 1 }
             });
         });
     };

@@ -1,86 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# npm
 
-## Getting Started
-
-First, run the development server:
-
-```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 # DB - Prisma and postgres running at Docker
 
 sudo docker compose up
+
 npx prisma format
 npx prisma migrate dev
 npx prisma db seed
-npx prisma generate - atualizar os tipos do prisma (os campos das tabelas para eu conseguir importar nos ts files)
+npx prisma generate - update table fields to import at ts files
 
 ## Access inside docker
 
-sudo docker exec -it 9988508c3e2b bash
+sudo docker exec -it <docker_id> bash
 psql -U postgres -d mydb
 
 ### Check tables
 
 \dt
 
-\d "Restaurant" check details
+\d "Restaurant" - check for  details
 
 SELECT \* FROM "MenuCategory";
 
 ## src/lib/prisma.ts
 
-Garante que sempre teremos pelo menos 1 conexão aberta com db.
-quando salva arquivo em desenvolvimento, o servidor reinicia.
-Se não tenho esse arquivo, sempre que eu salvo arquivo em desenvolvimento, ele vai criar uma nova conexão com banco (e vai estourar o banco)
-Esse código garante que se estiver em desenvolvimento crio versão em cache do prisma, que é basicamente uma conexão com db.
+Ensures that we always have at least one open connection to the database.
+When saving a file in development, the server restarts.
+If I don't have this file, every time I save a file in development, it will create a new connection to the database (and it will overload the database).
+This code ensures that if it is in development mode, I create a cached version of Prisma, which is basically a connection to the database.
 
-# sfc criar page
+# sfc 
+ Shortcut for stateless functional component, which is a type of React component that is written as a function, and doesn't have any internal state.
 
 # next
 
 ## Approuter
+If a folder inside "src/app/" has a page.tsx file, it will be treated as a route.
 
-Dentro das subpastas que forem adicionadas ao caminho "src/app/" e que tiverem um arquivo page.tsx será tratada como uma rota.
+## [folder]
 
-## [Pasta]
+In Next.js, when you create a folder (or a file) with the name enclosed in square brackets ([name]), you're telling Next.js to treat that as a dynamic route. This means that the [name] part of the folder or file name will be treated as a parameter, and its value will be extracted from the URL when a user visits a specific page. 
 
-Quando crio uma pasta no next com nome entre colchetes, vou receber no parâmetro da url, um parâmetro com esse nome. Ex.:
+Eg.:
 [slug]/page.tsx
 localhost:3000 /fsw-donalds
 
-Nesse caso, fsw-donalds vai ser o valor de slug.
-É um server component, roda no server, e pode acessar backend. Não consegue ter interatividade.
+The value in the URL path (e.g., fsw-donalds) is captured as the slug parameter.
 
-Se quiser interatividade tem que criar um client component
+It is a server component, it runs at server-side, and it can access backend, but it can't have interactivity.
+If you want interactivity you must create a client component.
 
 # Tools
 
@@ -90,13 +60,12 @@ To customize your css by using class
 
 ## Shadcn
 
-npx shadcn@2.3.0 init
-
 Pretty components. It is compatible with tailwind.
 
-npx shadcn@2.3.0 add button
-It created a /src/components/ui/button.tsx. It uses tailwind classes, so it makes easier to customize it.
+npx shadcn@2.3.0 init
 
+### Installed components
+npx shadcn@2.3.0 add button
 npx shadcn@2.3.0 add card
 npx shadcn@2.3.0 add scroll-area
 npx shadcn@2.3.0 add sheet
@@ -118,42 +87,44 @@ npm install -D prettier-plugin-tailwindcss@0.6.5
 Order classes
 
 
-# Componentes renderizados por um client component
-sempre serão client coomponents, pois não é possível ter um server component dentro de um client component.
+# Rendered components by a client component
+Components rendered by a client component will always be client components, because it's not possible to have a server component inside a client component.
 
-A menos que o server component seja passado como um prop-children dentro do client component. Como por exemplo no caso do cart.tsx que é client component e é passado no layout.tsx. Dentro do cartProvider tem alguns server compoentns como o src/app/[slug]/menu/page.tsx
+Unless the server component is passed as a prop-child inside the client component. 
+For example, in the case of cart.tsx, which is a client component and is passed in layout.tsx. Inside the cartProvider, there are some server components like src/app/[slug]/menu/page.tsx
 
-# Botão de voltar a página, usa um useRouter
-hook useRouter que só roda em client component. 
-Por isso criamos components/product-header.tsx
-não é tratada como rota porque não tem arquivo page.tsx. 
+# Back button
+
+The back button uses the useRouter hook, which only runs in a client component.
+That's why we created components/product-header.tsx.
+It’s not treated as a route because it doesn’t have a page.tsx file.
 
 # Functions
 When we use more than 1x a function, we can save it at /src/helpers and call them whenever we want.
 
-# Carrinho
-Tem 2 telas que precisam de infos de carrinho (se carrinho está aberto, e quais são os itens no carrinho):
-- tela da sacola;
-- tela do restaurante (na parte inferior mostrando o preço total dos pedidos).
-Por isso preciso armazenar o estado e o conteúdo do carrinho em uma ferramenta de estado  global como o Context API. 
-Vamos criar um contexto (tipo um componente ) que vai armazenar um estado, que será compartilhado por telas e componentes que essas telas renderizam.
+# Cart
+There are two screens that need cart information (whether the cart is open and the items in the cart):
 
-Contexto: /src/app/[slug]/menu/context/cart.tsx
+    The cart screen (sacola screen);
+    The restaurant screen (at the bottom, showing the total price of the orders).
 
-tenho que fazer com  que todos os componentes que precisam ter acesso as infos desse contexto, estejam dentro do CartProvider, então tenho que add no layout.tsx
+Therefore, I need to store the state and content of the cart in a global state management tool like Context API.
+We will create a context (similar to a component) that will store a state, which will be shared across the screens and the components rendered by those screens.
 
-CartProvider tem que ser um client-component
+Context: /src/app/[slug]/menu/context/cart.tsx
+
+I need to ensure that all components that need access to the context information are within the CartProvider, so I have to add it in layout.tsx.
+
+The CartProvider has to be a client component.
+
 # Layout.tsx
-renderizado em todas as páginas.
-
+Rendered in all pages.
 
 # CPF
 react number format
 npm install react-number-format@5.4.3
 
 # SERVER ACTIONS
-Funções que são executadas no servidor mas podem ser chamadas por client component.
-É uma rota de API. 
-Para sinalizar que o arquivo terá server actions, você tem que add "use server;" no começo.
-
-# Alterar status de pedido pelo postgres
+Functions that are executed on the server but can be called by client components.
+They are an API route.
+To indicate that a file will have server actions, you must add "use server;" at the beginning of the file.

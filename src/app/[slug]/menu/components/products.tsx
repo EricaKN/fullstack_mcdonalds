@@ -1,5 +1,4 @@
 import { Product } from "@prisma/client";
-import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
@@ -46,5 +45,5 @@ const Products = ({ products }: ProductsProps) => {
     </div>
   );
 };
- 
+
 export default Products;
