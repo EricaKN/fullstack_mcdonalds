@@ -103,6 +103,7 @@ npx shadcn@2.3.0 add sheet
 npx shadcn@2.3.0 add drawer
 npx shadcn@2.3.0 add form
 npx shadcn@2.3.0 add sonner
+npx shadcn@2.3.0 add separator
 
 ## eslint for sort imports
 
@@ -154,3 +155,5 @@ npm install react-number-format@5.4.3
 Funções que são executadas no servidor mas podem ser chamadas por client component.
 É uma rota de API. 
 Para sinalizar que o arquivo terá server actions, você tem que add "use server;" no começo.
+
+# Alterar status de pedido pelo postgres
